@@ -14,6 +14,9 @@ public class LanzarBola : MonoBehaviour
 
     private ResetearBolos[] bolos;
 
+    public RectTransform flechaUI;
+    public GameObject canvas;
+
     void Awake()
     {
         inputActions = new InputActions();
@@ -44,6 +47,9 @@ public class LanzarBola : MonoBehaviour
     {
         transform.Rotate(Vector3.up * movimiento.x * velocidadRotacion * Time.deltaTime);
 
+        float rotY = transform.eulerAngles.y;
+        flechaUI.rotation = Quaternion.Euler(0, 0, -rotY);
+
         if (transform.position.y < -5f)
         {
             Reiniciar();
@@ -53,6 +59,7 @@ public class LanzarBola : MonoBehaviour
     void OnLaunch(InputAction.CallbackContext context)
     {
         Lanzar();
+        canvas.SetActive(false);
     }
 
     void Lanzar()
@@ -64,6 +71,7 @@ public class LanzarBola : MonoBehaviour
 
     void Reiniciar()
     {
+        canvas.SetActive(true);
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
